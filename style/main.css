@@ -395,137 +395,221 @@ body {
 }
 
 /* =========================================
-   手機版 RWD（以 Samsung S23 / 360px 寬為基準）
+   手機版 RWD（斷點 768px，每個 section 佔滿一頁、字體同比例放大）
    ========================================= */
 @media (max-width: 768px) {
 
     /* --- Nav 導覽列 --- */
     .main-nav {
-        padding: 1rem 6%;
+        padding: 1.2rem 6%;
     }
 
     .logo {
-        font-size: 1rem;
+        font-size: 1.3rem;
         letter-spacing: 0.2em;
     }
 
     .nav-links {
-        gap: 1.2rem;
+        gap: 1.5rem;
     }
 
     .nav-links a {
-        font-size: 0.7rem;
+        font-size: 0.85rem;
         letter-spacing: 0.1em;
     }
 
-    /* --- Hero 區 --- */
+    /* --- Hero 區（本來就是 100vh，維持一頁） --- */
     .title {
-        font-size: 2rem;
+        font-size: 3.6rem;
     }
 
     .hero .subtitle {
-        font-size: 0.9rem;
+        font-size: 1.3rem;
         letter-spacing: 0.15em;
     }
 
     .spacer {
-        height: 15vh;
+        height: 10vh;
     }
 
-    /* --- Narrative 文字區 --- */
+    /* --- Narrative 文字區：佔滿一頁、垂直置中 --- */
     .narrative-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
         max-width: 100%;
-        padding: 100px 8%;
-        font-size: 1rem;
+        padding: 60px 8%;
+        font-size: 1.6rem;
     }
 
     .narrative-section p {
-        margin-bottom: 2rem;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        margin-bottom: 2.5rem;
     }
 
-    /* --- Teacher Preview 區 --- */
+    /* --- Teacher Preview 區：佔滿一頁、垂直置中 --- */
     .teacher-preview {
+        min-height: 100vh;
+        box-sizing: border-box;
         flex-direction: column;
-        gap: 2rem;
-        padding: 100px 8%;
+        justify-content: center;
+        gap: 2.5rem;
+        padding: 60px 8%;
     }
 
     .teacher-image-placeholder {
         width: 100%;
-        max-width: 280px;
-        height: 320px;
+        max-width: 320px;
+        height: 360px;
     }
 
     .teacher-intro {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
         text-align: center;
     }
 
     .teacher-intro h2 {
-        font-size: 1.5rem;
-        margin-bottom: 1.2rem;
-    }
-
-    .teacher-intro p {
-        font-size: 1rem;
+        font-size: 2.4rem;
         margin-bottom: 1.5rem;
     }
 
-    /* --- Services 服務卡片區 --- */
+    .teacher-intro p {
+        font-size: 1.4rem;
+        line-height: 1.9;
+        margin-bottom: 2rem;
+    }
+
+    /* --- Services 服務卡片區：佔滿一頁、垂直置中 --- */
     .services-section {
-        padding: 100px 6%;
+        min-height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 6%;
     }
 
     .section-title {
-        font-size: 1.3rem;
-        margin-bottom: 2.5rem;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        font-size: 2rem;
+        margin-bottom: 3rem;
     }
 
     .services-container {
-        flex-direction: column;
-        gap: 1.5rem;
+        width: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 0;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox 隱藏捲軸 */
+    }
+
+    .services-container::-webkit-scrollbar {
+        display: none; /* Chrome/Safari 隱藏捲軸 */
     }
 
     .service-card {
-        padding: 2.5rem 1.5rem;
+        flex: 0 0 100%;
+        width: 100%;
+        scroll-snap-align: center;
+        box-sizing: border-box;
+        padding: 2rem 8%;
+        background: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+        transform: none;
+        text-align: center;
     }
 
-    /* --- Testimonials 迴響輪播區 --- */
+    .service-card:hover {
+        background: none;
+        box-shadow: none;
+        transform: none;
+    }
+
+    .service-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .service-card p {
+        font-size: 1.2rem;
+        line-height: 1.8;
+    }
+
+    .service-link {
+        font-size: 1.1rem;
+    }
+
+    /* --- Testimonials 迴響輪播區：佔滿一頁、垂直置中 --- */
     .testimonials-section {
-        padding: 100px 6%;
+        min-height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 6%;
     }
 
     .carousel-container {
-        height: 380px; /* 文字行數多，加高避免裁切 */
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        height: 480px; /* 字級放大後行數變多，加高避免裁切 */
     }
 
     .testimonial-slide p {
-        font-size: 1.05rem;
+        font-size: 1.5rem;
         line-height: 2;
         letter-spacing: 0.05em;
     }
 
     .testimonial-slide cite {
-        margin-top: 1.5rem;
-        font-size: 0.8rem;
+        margin-top: 2rem;
+        font-size: 1.1rem;
     }
 
-    /* --- CTA 結尾區 --- */
+    /* --- CTA 結尾區：佔滿一頁、垂直置中 --- */
     .cta-section {
-        padding: 100px 8%;
+        min-height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 60px 8%;
     }
 
     .cta-section h2 {
-        font-size: 1.6rem;
-        margin-bottom: 1.2rem;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        font-size: 3rem;
+        margin-bottom: 1.8rem;
     }
 
     .cta-section p {
-        font-size: 1rem;
-        margin-bottom: 2.5rem;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        font-size: 1.4rem;
+        margin-bottom: 3rem;
     }
 
     .cta-button {
-        padding: 0.8rem 2rem;
-        font-size: 0.9rem;
+        padding: 1.1rem 2.8rem;
+        font-size: 1.2rem;
     }
 }
