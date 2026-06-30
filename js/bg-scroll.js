@@ -91,8 +91,8 @@
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  const PARTICLE_COUNT = 36; // 總粒子池，依深度決定有多少顆顯示
-  const DRIFT_SPEED_MULTIPLIER = 0.18; // 飄移速度倍率，數字越大飄得越快（原為 0.05）
+  const PARTICLE_COUNT = 108; // 總粒子池，依深度決定有多少顆顯示
+  const DRIFT_SPEED_MULTIPLIER = 0.48; // 飄移速度倍率，數字越大飄得越快（原為 0.05）
 
   function rand(min, max) { return Math.random() * (max - min) + min; }
 

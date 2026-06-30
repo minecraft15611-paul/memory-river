@@ -125,7 +125,6 @@ body {
 }
 
 .narrative-section {
-    padding: 0 10%; /* 左右留白，避免文字貼邊 */
     max-width: 600px;
     margin: 0 auto; /* 置中 */
     text-align: center;
@@ -136,6 +135,18 @@ body {
 
 .narrative-section p {
     margin-bottom: 3rem; /* 段落間的距離，創造慢節奏 */
+}
+
+/* 文字浮現動畫：初始隱藏，進入視窗後淡入並上浮 */
+.reveal-text {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 7s ease, transform 1.2s ease;
+}
+
+.reveal-text.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .teacher-preview {
@@ -166,6 +177,31 @@ body {
     margin-bottom: 2rem;
     font-size: 1.1rem;
     opacity: 0.8;
+}
+
+/* 逐字從右側飄入的打字機效果 */
+.char-reveal .char-unit {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    white-space: pre; /* 保留空白字元的寬度 */
+}
+
+.char-reveal .char-unit.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 空白字元（縮排、換行用）：保留排版寬度，不參與飄入動畫，立即可見 */
+.char-reveal .char-space {
+    display: inline-block;
+    white-space: pre;
+}
+
+/* h2 套用 char-reveal 時沿用原本的 opacity，避免文字本身過於透明前後不一致 */
+.teacher-intro h2.char-reveal .char-unit.is-visible {
+    opacity: 1;
 }
 
 .more-link {
@@ -199,15 +235,25 @@ body {
 }
 
 .service-card {
-    border: 1px solid var(--faint-gold); /* 細金框 */
-    padding: 3rem 2rem;
+    padding: 4rem 2rem;
     flex: 1;
-    transition: 0.5s;
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* 更細膩的緩動 */
     background: rgba(255, 255, 255, 0.02); /* 極輕微的背景質感 */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid var(--faint-gold);
+    border-left: none;
+    border-right: none;
+    transition: transform 0.9s ease, box-shadow 0.8s ease;
 }
 
 .service-card:hover {
-    background: rgba(197, 160, 89, 0.1); /* hover 時透出淡金光澤 */
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.15); /* 輕柔擴散的光暈 */
+    background: rgba(197, 160, 89, 0.05); /* 更低調的 hover 背景 */
+    transform: translateY(-10px);
+    transition: transform 0.8s ease, box-shadow 0.8s ease;
 }
 
 .service-card h3 {
@@ -216,25 +262,11 @@ body {
     letter-spacing: 0.1em;
 }
 
-.service-card {
-    border-top: 1px solid var(--faint-gold); /* 只保留上下細線 */
-    border-bottom: 1px solid var(--faint-gold);
-    border-left: none;
-    border-right: none;
-    padding: 4rem 2rem;
-    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* 更細膩的緩動 */
-}
-
 .service-card p {
     font-size: 0.95rem;
     line-height: 1.8;
     margin-bottom: 2rem;
     opacity: 0.8;
-}
-
-.service-card:hover {
-    background: rgba(197, 160, 89, 0.05); /* 更低調的 hover 背景 */
-    transform: translateY(-10px);
 }
 
 .service-link {
