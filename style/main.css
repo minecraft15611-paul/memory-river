@@ -1,0 +1,363 @@
+/* 使用深水系配色與細節設計 */
+:root {
+    --deep-blue: #0b1d2e;    /* 深邃靛藍底色 */
+    --foggy-white: #e0e0e0;  /* 柔和霧白文字 */
+    --faint-gold: #c5a059;   /* 淡金點綴 */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--deep-blue);
+    color: var(--foggy-white);
+    font-family: "Serif", "細明體", serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* 全頁固定背景層，由 bg-scroll.js 控制 */
+#bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: var(--deep-blue);
+    transition: background 0.15s linear; /* 平滑緩衝，防止跳動 */
+    will-change: background;
+}
+
+/* 浮動發光粒子畫布，疊在背景色之上、內容之下 */
+#bg-particles {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- Navbar 導覽列整體樣式 --- */
+.main-nav {
+    box-sizing: border-box; /* ← 加這行，讓 padding 計算在 width 內，不再溢出 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.8s ease, background 0.5s ease;
+    pointer-events: none;
+}
+
+/* 滾動觸發後的顯示狀態 */
+.main-nav.visible {
+    opacity: 1;
+    pointer-events: auto;
+    background: rgba(11, 29, 46, 0.85); /* 深水系霧面底色 */
+    backdrop-filter: blur(8px); /* 輕微模糊，增加沈澱質感 */
+}
+
+/* --- Logo 區域 --- */
+.logo {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--foggy-white);
+    cursor: pointer;
+}
+
+/* --- 四個項目並排的連結區域 --- */
+.nav-links {
+    display: flex;
+    gap: 4rem; /* 保持項目間距的優雅 */
+    justify-content: flex-end; /* 確保四個項目整體靠右對齊 */
+}
+
+.nav-links a {
+    color: var(--foggy-white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.25em; /* 寬字距營造空靈感 */
+    text-transform: uppercase; /* 可選，若想更現代可保留 */
+    transition: color 0.4s ease, opacity 0.4s ease;
+    opacity: 0.8; /* 連結稍微低調，不搶奪視覺重心 */
+}
+
+.nav-links a:hover {
+    color: var(--faint-gold); /* 懸停時溫柔呈現金色微光 */
+    opacity: 1;
+}
+
+.hero {
+    height: 100vh; /* 第一屏佔滿全螢幕 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.2em;
+}
+
+.spacer {
+    height: 30vh; /* 留白的空間 */
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 200;
+    margin-bottom: 1rem;
+}
+
+.cta-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 10px 30px;
+    border: 1px solid var(--faint-gold);
+    color: var(--faint-gold);
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+.cta-button:hover {
+    background-color: var(--faint-gold);
+    color: var(--deep-blue);
+}
+
+.narrative-section {
+    padding: 0 10%; /* 左右留白，避免文字貼邊 */
+    max-width: 600px;
+    margin: 0 auto; /* 置中 */
+    text-align: center;
+    line-height: 2; /* 增加行距，營造呼吸感 */
+    font-size: 1.2rem;
+    padding: 180px 10%;
+}
+
+.narrative-section p {
+    margin-bottom: 3rem; /* 段落間的距離，創造慢節奏 */
+}
+
+.teacher-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem; /* 大留白，維持慢節奏 */
+    padding: 150px 10%;
+    color: var(--foggy-white);
+}
+
+.teacher-image-placeholder {
+    width: 300px;
+    height: 400px;
+    background-color: #1a2e42; /* 比底色稍微亮一點的深藍 */
+    border: 1px solid var(--faint-gold); /* 淡金邊框，增加精緻感 */
+}
+
+.teacher-intro h2 {
+    font-size: 2rem;
+    font-weight: 200;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+}
+
+.teacher-intro p {
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.more-link {
+    color: var(--faint-gold);
+    text-decoration: none;
+    border-bottom: 1px solid var(--faint-gold);
+    padding-bottom: 2px;
+    transition: 0.3s;
+}
+
+.more-link:hover {
+    opacity: 0.6;
+}
+
+.services-section {
+    padding: 180px 10%;
+    text-align: center;
+}
+
+.section-title {
+    font-weight: 200;
+    margin-bottom: 4rem;
+    letter-spacing: 0.2em;
+    opacity: 0.9;
+}
+
+.services-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem; /* 保持大留白 */
+}
+
+.service-card {
+    border: 1px solid var(--faint-gold); /* 細金框 */
+    padding: 3rem 2rem;
+    flex: 1;
+    transition: 0.5s;
+    background: rgba(255, 255, 255, 0.02); /* 極輕微的背景質感 */
+}
+
+.service-card:hover {
+    background: rgba(197, 160, 89, 0.1); /* hover 時透出淡金光澤 */
+}
+
+.service-card h3 {
+    font-weight: 200;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+.service-card {
+    border-top: 1px solid var(--faint-gold); /* 只保留上下細線 */
+    border-bottom: 1px solid var(--faint-gold);
+    border-left: none;
+    border-right: none;
+    padding: 4rem 2rem;
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* 更細膩的緩動 */
+}
+
+.service-card p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.service-card:hover {
+    background: rgba(197, 160, 89, 0.05); /* 更低調的 hover 背景 */
+    transform: translateY(-10px);
+}
+
+.service-link {
+    color: var(--faint-gold);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--faint-gold);
+}
+
+.service-link::after {
+    content: " ↗"; /* 增加指向性符號 */
+    font-size: 0.8rem;
+}
+
+.testimonials-section {
+    padding: 180px 10%;
+    text-align: center;
+    color: var(--foggy-white);
+}
+
+.carousel-container {
+    position: relative;
+    height: 300px; /* 固定高度以維持穩定感 */
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.testimonial-slide {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease; /* 慢節奏的淡入淡出 */
+}
+
+.testimonial-slide.active {
+    opacity: 1;
+}
+
+.testimonial-slide p {
+    font-size: 1.4rem;
+    line-height: 2.4; /* 極高的行距，增加閱讀的沈澱感 */
+    letter-spacing: 0.15em;
+    font-weight: 200;
+}
+
+.testimonial-slide cite {
+    display: block;
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    opacity: 0.5;
+    letter-spacing: 0.25em;
+}
+
+.carousel-dots {
+    margin-top: 2rem;
+}
+
+.dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--foggy-white);
+    border-radius: 50%;
+    margin: 0 10px;
+    opacity: 0.2;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dot.active {
+    opacity: 0.8;
+    background: var(--faint-gold);
+}
+
+.cta-section {
+    padding: 180px 10%;
+    text-align: center;
+    color: var(--foggy-white);
+}
+
+.cta-section h2 {
+    font-weight: 200;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+}
+
+.cta-section p {
+    font-size: 1.1rem;
+    margin-bottom: 4rem;
+    opacity: 0.7;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 3rem;
+    border: 1px solid var(--faint-gold);
+    color: var(--faint-gold);
+    text-decoration: none;
+    letter-spacing: 0.2em;
+    transition: all 0.5s ease;
+}
+
+.cta-button:hover {
+    background: var(--faint-gold);
+    color: #0b1d2e; /* 恢復背景色 */
+}
+
+.hero {
+    position: relative;
+}
+
+#heroCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.title, .subtitle {
+    position: relative;
+    z-index: 1;
+}
