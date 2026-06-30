@@ -17,8 +17,10 @@ body {
 
 /* 全頁固定背景層，由 bg-scroll.js 控制 */
 #bg-layer {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: -2;
     background: var(--deep-blue);
     transition: background 0.15s linear; /* 平滑緩衝，防止跳動 */
@@ -281,6 +283,11 @@ body {
     font-size: 0.8rem;
 }
 
+/* 服務卡片滑動提示點點：桌機版不需要，預設隱藏 */
+.services-dots {
+    display: none;
+}
+
 .testimonials-section {
     padding: 180px 10%;
     text-align: center;
@@ -512,6 +519,7 @@ body {
         gap: 0;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
+        scroll-padding-left: 0;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox 隱藏捲軸 */
     }
@@ -523,7 +531,8 @@ body {
     .service-card {
         flex: 0 0 100%;
         width: 100%;
-        scroll-snap-align: center;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
         box-sizing: border-box;
         padding: 2rem 8%;
         background: none;
@@ -552,6 +561,16 @@ body {
 
     .service-link {
         font-size: 1.1rem;
+    }
+
+    /* 服務卡片橫滑提示點點：手機版顯示，沿用既有 .dot 樣式 */
+    .services-dots {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        margin-top: 2rem;
+        text-align: center;
     }
 
     /* --- Testimonials 迴響輪播區：佔滿一頁、垂直置中 --- */
