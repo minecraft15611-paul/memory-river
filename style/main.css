@@ -393,3 +393,139 @@ body {
     position: relative;
     z-index: 1;
 }
+
+/* =========================================
+   手機版 RWD（以 Samsung S23 / 360px 寬為基準）
+   ========================================= */
+@media (max-width: 480px) {
+
+    /* --- Nav 導覽列 --- */
+    .main-nav {
+        padding: 1rem 6%;
+    }
+
+    .logo {
+        font-size: 1rem;
+        letter-spacing: 0.2em;
+    }
+
+    .nav-links {
+        gap: 1.2rem;
+    }
+
+    .nav-links a {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+    }
+
+    /* --- Hero 區 --- */
+    .title {
+        font-size: 2rem;
+    }
+
+    .hero .subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 0.15em;
+    }
+
+    .spacer {
+        height: 15vh;
+    }
+
+    /* --- Narrative 文字區 --- */
+    .narrative-section {
+        max-width: 100%;
+        padding: 100px 8%;
+        font-size: 1rem;
+    }
+
+    .narrative-section p {
+        margin-bottom: 2rem;
+    }
+
+    /* --- Teacher Preview 區 --- */
+    .teacher-preview {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 100px 8%;
+    }
+
+    .teacher-image-placeholder {
+        width: 100%;
+        max-width: 280px;
+        height: 320px;
+    }
+
+    .teacher-intro {
+        text-align: center;
+    }
+
+    .teacher-intro h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .teacher-intro p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* --- Services 服務卡片區 --- */
+    .services-section {
+        padding: 100px 6%;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .services-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .service-card {
+        padding: 2.5rem 1.5rem;
+    }
+
+    /* --- Testimonials 迴響輪播區 --- */
+    .testimonials-section {
+        padding: 100px 6%;
+    }
+
+    .carousel-container {
+        height: 380px; /* 文字行數多，加高避免裁切 */
+    }
+
+    .testimonial-slide p {
+        font-size: 1.05rem;
+        line-height: 2;
+        letter-spacing: 0.05em;
+    }
+
+    .testimonial-slide cite {
+        margin-top: 1.5rem;
+        font-size: 0.8rem;
+    }
+
+    /* --- CTA 結尾區 --- */
+    .cta-section {
+        padding: 100px 8%;
+    }
+
+    .cta-section h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .cta-section p {
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .cta-button {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+}

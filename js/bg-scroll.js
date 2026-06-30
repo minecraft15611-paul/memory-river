@@ -19,6 +19,10 @@
 
   /**
    * 錨點定義：[滾動比例 0~1, 背景色, radial 光暈色, 光暈中心 Y%]
+   * 這份色票現在會被「一次性」畫成一張貫穿全頁高度的漸層圖，
+   * 而不是隨滾動即時插值。如此一來 bg-layer 不再受限於
+   * position:fixed 只能填滿單一視窗高度的問題，
+   * 不會在視窗交界處出現顏色斷層。
    */
   const keyframes = [
     { t: 0.00, base: '#0b1d2e', glow: '#1a3a56', cx: 50, cy: 10 },
@@ -36,20 +40,22 @@
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
+  // smoothstep：讓每一段插值的「斜率」在頭尾都趨近於相鄰段的斜率，
+  // 避免在 keyframe 轉折處出現速率突變（即馬赫帶/Mach band 錯覺的成因）
+  function smoothstep(t) { return t * t * (3 - 2 * t); }
+
   function lerpColor(hexA, hexB, t) {
     const a = hexToRgb(hexA), b = hexToRgb(hexB);
-    return `rgb(${Math.round(lerp(a[0], b[0], t))},${Math.round(lerp(a[1], b[1], t))},${Math.round(lerp(a[2], b[2], t))})`;
+    const e = smoothstep(t);
+    return [
+      Math.round(lerp(a[0], b[0], e)),
+      Math.round(lerp(a[1], b[1], e)),
+      Math.round(lerp(a[2], b[2], e)),
+    ];
   }
 
-  let currentProgress = 0;
-
-  function update() {
-    const scrollY   = window.scrollY;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const progress  = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
-    currentProgress = progress;
-
-    let from = keyframes[0], to = keyframes[1];
+  function colorAt(progress) {
+    let from = keyframes[0], to = keyframes[keyframes.length - 1];
     for (let i = 0; i < keyframes.length - 1; i++) {
       if (progress >= keyframes[i].t && progress <= keyframes[i + 1].t) {
         from = keyframes[i];
@@ -57,30 +63,59 @@
         break;
       }
     }
-
-    const span = to.t - from.t || 0.001;
+    const span  = to.t - from.t || 0.001;
     const local = (progress - from.t) / span;
-
-    const base = lerpColor(from.base, to.base, local);
-    const glow = lerpColor(from.glow, to.glow, local);
-    const cx   = lerp(from.cx, to.cx, local).toFixed(1);
-    const cy   = lerp(from.cy, to.cy, local).toFixed(1);
-
-    bg.style.background = `
-      radial-gradient(ellipse 70% 55% at ${cx}% ${cy}%, ${glow} 0%, transparent 70%),
-      ${base}
-    `;
+    return lerpColor(from.base, to.base, local);
   }
 
+  // bg-layer 改為 absolute，並把高度撐到整個文件高度，
+  // 讓漸層圖一次貫穿全頁，捲動時只是「移動視窗去看同一張圖」
+  function sizeBgLayer() {
+    const fullHeight = document.documentElement.scrollHeight;
+    bg.style.height = fullHeight + 'px';
+  }
+
+  // 密集取樣（每 1% 一個色標）並套用 smoothstep 緩動，
+  // 讓整條 gradient 的色彩變化速率連續，肉眼不會在任何一點
+  // 感覺到「轉折」，徹底消除馬赫帶視覺錯覺
+  const GRADIENT_SAMPLES = 100;
+
+  function buildGradient() {
+    const stops = [];
+    for (let i = 0; i <= GRADIENT_SAMPLES; i++) {
+      const t = i / GRADIENT_SAMPLES;
+      const [r, g, b] = colorAt(t);
+      stops.push(`rgb(${r},${g},${b}) ${(t * 100).toFixed(2)}%`);
+    }
+    bg.style.background = `linear-gradient(to bottom, ${stops.join(', ')})`;
+  }
+
+  function update() {
+    sizeBgLayer();
+    buildGradient();
+  }
+
+  window.addEventListener('resize', update);
+  // 內容可能在載入後才撐開高度（圖片、字體等），稍後再校正一次
+  window.addEventListener('load', update);
+  update();
+
+  // 仍保留滾動進度追蹤，僅供粒子「越深越密」效果使用，
+  // 不再用來改變背景色（背景色已是一張固定的整頁漸層圖）
+  let currentProgress = 0;
   let ticking = false;
+  function updateProgress() {
+    const scrollY   = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    currentProgress = maxScroll > 0 ? Math.min(scrollY / maxScroll, 1) : 0;
+  }
   window.addEventListener('scroll', () => {
     if (!ticking) {
-      requestAnimationFrame(() => { update(); ticking = false; });
+      requestAnimationFrame(() => { updateProgress(); ticking = false; });
       ticking = true;
     }
   }, { passive: true });
-
-  update();
+  updateProgress();
 
   /* ---------- 浮動發光粒子（深海生物感） ---------- */
 
